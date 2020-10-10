@@ -1,0 +1,85 @@
+{
+  "builders": [
+    {
+      "CPUs": 4,
+      "RAM": 4096,
+      "RAM_reserve_all": true,
+      "ip_wait_timeout": "15m",
+      "ip_settle_timeout": "2m",
+      "boot_wait": "5s",
+      "boot_command": [
+        "<enter><enter><f6><esc><wait> ",
+        "autoinstall ds=nocloud",
+        "<enter><wait>"
+      ],
+      "boot_order": "disk,cdrom",
+      "cluster": "{{user `cluster`}}",
+      "convert_to_template": "true",
+      "datacenter": "{{user `datacenter`}}",
+      "datastore": "{{user `datastore`}}",
+      "disk_controller_type": "pvscsi",
+      "floppy_label": "cidata",
+      "floppy_files": [
+        "./user-data",
+        "./meta-data"
+      ],
+      "folder": "{{user `folder`}}",
+      "guest_os_type": "ubuntu64Guest",
+      "insecure_connection": "true",
+      "iso_paths": "[{{ user `datastore` }}] {{user `iso_path` }}",
+      "network_adapters": [
+        {
+          "network": "{{user `template_network`}}",
+          "network_card": "vmxnet3"
+        }
+      ],
+      "password": "{{user `password`}}",
+      "ssh_password": "ubuntu",
+      "ssh_username": "ubuntu",
+      "ssh_timeout": "20m",
+      "ssh_handshake_attempts": "20",
+      "storage": [
+        {
+          "disk_size": 40000,
+          "disk_thin_provisioned": true
+        }
+      ],
+      "type": "vsphere-iso",
+      "username": "{{user `vcenter_username`}}",
+      "vcenter_server": "{{user `vcenter_server`}}",
+      "vm_name": "{{user `template_name`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "playbook_file": "./playbooks/standard.yml",
+      "type": "ansible",
+      "user": "ubuntu",
+      "extra_arguments": [ "-b" ]
+    },
+    {
+      "override": {
+        "vsphere-iso": {
+          "execute_command": "sudo bash {{.Path}}"
+        }
+      },
+      "script": "./scripts/cleanup.sh",
+      "type": "shell"
+    }
+  ],
+  "variables": {
+    "cluster": "{{env `VSPHERE_CLUSTER`}}",
+    "datacenter": "{{env `VSPHERE_DATACENTER`}}",
+    "datastore": "{{env `VSPHERE_DATASTORE`}}",
+    "folder": "{{env `VSPHERE_FOLDER`}}",
+    "iso_path": "{{env `VSPHERE_ISO_PATH`}}",
+    "packer_bastion_host": "{{env `PACKER_BASTION_HOST`}}",
+    "packer_bastion_key": "{{env `PACKER_BASTION_KEY`}}",
+    "password": "{{env `VSPHERE_PASSWORD`}}",
+    "template_name": "{{env `VSPHERE_TEMPLATE_NAME`}}",
+    "template_network": "{{env `VSPHERE_NETWORK`}}",
+    "vcenter_server": "{{env `VSPHERE_SERVER`}}",
+    "vcenter_username": "{{env `VSPHERE_USERNAME`}}"
+  }
+}
+

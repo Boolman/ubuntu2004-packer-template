@@ -1,0 +1,50 @@
+- hosts: all
+  roles:
+    - ansible-hardening
+  tasks:
+    - name: Add the user 'ubuntu' with a bash shell.
+      user:
+        name: ubuntu
+        shell: /bin/bash
+        groups: sudo
+        append: true
+        password: "{{ 'ubuntu' | password_hash('sha512', 'mysecretsalt') }}"
+
+    - name: sudo no password needed
+      copy:
+        content: "ubuntu ALL=(ALL) NOPASSWD: ALL"
+        dest: /etc/sudoers.d/ubuntu
+        mode: 0600
+
+    - name: Disallow root SSH access (Explicitly enabled in preseed)
+      lineinfile:
+        dest: /etc/ssh/sshd_config
+        regexp: "^PermitRootLogin"
+        line: "PermitRootLogin no"
+        state: present
+
+    - name: "Fix where dbus is not started during vmware customization"
+      lineinfile:
+        path: /lib/systemd/system/open-vm-tools.service
+        insertafter: ".*Unit.*"
+        line: "After=dbus.service"
+        firstmatch: yes
+        state: present
+
+    - name: lock root
+      user:
+        name: root
+        password_lock: true
+
+    - name: Remove auth_keys in root
+      file:
+        path: /root/.ssh/authorized_keys
+        state: absent
+
+    - name: Remove netplan file to remove static IP
+      file:
+        path: /etc/netplan/01-netcfg.yaml
+        state: absent
+
+    - name: SLURP MACHINE ID
+      shell: truncate -s 0 /etc/machine-id
