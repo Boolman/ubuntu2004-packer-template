@@ -6,10 +6,10 @@
       "RAM_reserve_all": true,
       "ip_wait_timeout": "15m",
       "ip_settle_timeout": "5s",
-      "boot_wait": "10s",
+      "boot_wait": "5s",
       "boot_command": [
         "<enter><enter><f6><esc><wait> ",
-        "ipv6.disable=1 autoinstall ds=nocloud",
+        " ipv6.disable=1 autoinstall ds=nocloud",
         "<enter><wait>"
       ],
       "boot_order": "disk,cdrom",
