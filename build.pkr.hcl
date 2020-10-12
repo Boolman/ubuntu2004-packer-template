@@ -59,16 +59,18 @@ variable "vcenter_username" {
 }
 
 # "timestamp" template function replacement
-locals { timestamp = regex_replace(timestamp(), "[- TZ:]", "") }
+locals {
+  timestamp = regex_replace(timestamp(), "[- TZ:]", "")
+}
 
 source "vsphere-iso" "vmware-builder" {
   CPUs                 = 4
   RAM                  = 4096
   RAM_reserve_all      = true
-  boot_command         = ["<enter><enter><f6><esc><wait> ", "autoinstall ds=nocloud", "<enter><wait>"]
+  boot_command         = ["<enter><enter><f6><esc><wait> ", "ipv6.disable=1 autoinstall ds=nocloud", "<enter><wait>"]
   boot_order           = "disk,cdrom"
-  boot_wait            = "5s"
   cluster              = "${var.cluster}"
+  boot_wait            = "5s"
   convert_to_template  = true
   datacenter           = "${var.datacenter}"
   datastore            = "${var.datastore}"
