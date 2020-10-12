@@ -1,6 +1,7 @@
 - hosts: all
-  roles:
-    - ansible-hardening
+  #roles:
+  #  - ansible-hardening
+  #  need to fix deps with galaxy
   tasks:
     - name: Add the user 'ubuntu' with a bash shell.
       user:
