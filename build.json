@@ -5,8 +5,7 @@
       "RAM": 4096,
       "RAM_reserve_all": true,
       "ip_wait_timeout": "15m",
-      "ip_wait_address": "",
-      "ip_settle_timeout": "2m",
+      "ip_settle_timeout": "5s",
       "boot_wait": "5s",
       "boot_command": [
         "<enter><enter><f6><esc><wait> ",
