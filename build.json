@@ -55,7 +55,7 @@
       "playbook_file": "./playbooks/standard.yml",
       "type": "ansible",
       "user": "ubuntu",
-      "extra_arguments": [ "-b" ]
+      "extra_arguments": [ " -b -vvvvv " ]
     },
     {
       "override": {
