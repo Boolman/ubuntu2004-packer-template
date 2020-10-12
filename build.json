@@ -37,7 +37,7 @@
       "ssh_password": "ubuntu",
       "ssh_username": "ubuntu",
       "ssh_timeout": "20m",
-      "ssh_handshake_attempts": "20",
+      "ssh_handshake_attempts": "200",
       "pause_before_connecting": "5m",
       "storage": [
         {
