@@ -12,8 +12,8 @@ autoinstall:
         ens192:
           dhcp4: false
           addresses:
-          - 10.0.0.10/24
-          gateway4: 10.0.0.1
+          - 10.127.25.173/24
+          gateway4: 10.127.25.1
           nameservers:
             addresses: [8.8.8.8]
   storage:
