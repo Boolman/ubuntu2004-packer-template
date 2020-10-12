@@ -28,6 +28,6 @@ autoinstall:
   user-data:
     disable_root: false
   early-commands:
-    - systemctl mask sshd.service
+    - systemctl stop sshd.service
   late-commands:
     - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
