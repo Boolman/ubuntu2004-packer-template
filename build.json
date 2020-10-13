@@ -54,6 +54,7 @@
     {
       "playbook_file": "./playbooks/standard.yml",
       "type": "ansible",
+      "command": "./run-ansible.sh",
       "user": "ubuntu",
       "extra_arguments": [ "-b" ]
     },
