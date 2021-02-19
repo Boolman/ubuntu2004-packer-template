@@ -9,13 +9,8 @@ autoinstall:
     network:
       version: 2
       ethernets:
-        ens192:
-          dhcp4: false
-          addresses:
-          - 10.127.25.173/24
-          gateway4: 10.127.25.1
-          nameservers:
-            addresses: [8.8.8.8]
+        ens4:
+          dhcp4: true
   storage:
     layout:
       name: lvm

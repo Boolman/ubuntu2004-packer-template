@@ -1,6 +1,4 @@
 - hosts: all
-  roles:
-    - ansible-hardening
   tasks:
     - name: Add the user 'ubuntu' with a bash shell.
       user:
