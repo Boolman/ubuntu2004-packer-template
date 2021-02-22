@@ -5,7 +5,7 @@ variable "config_file" {
 locals { 
 	timestamp = regex_replace(timestamp(), "[- TZ:]", "") 
 	config = merge(jsondecode(file("config.json")), 
-			can(fileexists("${var.config_file}")) ? try(jsondecode(file("${var.config_file}")), {}) : {}
+			try(fileexists("${var.config_file}"), false) ? try(jsondecode(file("${var.config_file}")), {}) : {}
 		)
 }
 
