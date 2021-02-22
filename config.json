@@ -1,4 +1,9 @@
 {
+  "scripts": {
+	"cleanup": "./scripts/cleanup.sh",
+	"run-ansible": "./run-ansible.sh",
+	"ansible-playbook": "./playbooks/standard.yml"
+  },
   "vm_name": "test-1",
   "cpus": 4,
   "memory": 4096,

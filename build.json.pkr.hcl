@@ -5,7 +5,7 @@ variable "config_file" {
 locals { 
 	timestamp = regex_replace(timestamp(), "[- TZ:]", "") 
 	config = merge(jsondecode(file("config.json")), 
-			can(fileexists("${var.config_file}")) ? jsondecode(file("${var.config_file}")) : {}
+			can(fileexists("${var.config_file}")) ? try(jsondecode(file("${var.config_file}")), {}) : {}
 		)
 }
 
@@ -37,13 +37,13 @@ build {
   sources = ["source.qemu.builder"]
 
   provisioner "ansible" {
-    command         = "./run-ansible.sh"
+    command         = "${local.config.scripts.run-ansible}"
     extra_arguments = ["-b"]
-    playbook_file   = "./playbooks/standard.yml"
+    playbook_file   = "${local.config.scripts.ansible-playbook}"
     user            = "ubuntu"
   }
   provisioner "shell" {
-    script = "./scripts/cleanup.sh"
+    script = "${local.config.scripts.cleanup}"
     execute_command = "sudo {{ .Path }}"
   }
 }
